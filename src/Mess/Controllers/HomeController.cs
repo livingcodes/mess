@@ -2,14 +2,43 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Mess.Models;
+using System.Dynamic;
 
 namespace Mess.Controllers
 {
 public class HomeController : Controller
 {
+    // @Model.Message (strongly typed, intellisense)
     public IActionResult Index() {
         var posts = query();
         return View(posts);
+    }
+
+    // @ViewData["Message"] (dictionary)
+    public IActionResult ViewDataExample() {
+        ViewData["Message"] = "ViewData";
+        return View();
+    }
+
+    // @ViewBag.Message (dynamic)
+    public IActionResult ViewBagExample() {
+        ViewBag.Message = "ViewBag";
+        return View();
+    }
+    
+    // @Model.Message (dynamic)
+    public IActionResult ExpandoExample() {
+        dynamic model = new ExpandoObject();
+        model.Message = "Expando";
+        return View(model);
+
+        // doesn't work (runtime exception)
+        //dynamic model = new { Message = "Dynamic" };
+        //return View(model);
+    }
+
+    public IActionResult Error() {
+        return View();
     }
 
     List<Post> query() {
@@ -39,25 +68,6 @@ public class HomeController : Controller
             PublishDate = new DateTime(2016, 12, 10)
         });
         return posts;
-    }
-
-    public IActionResult About()
-    {
-        ViewData["Message"] = "Your application description page.";
-
-        return View();
-    }
-
-    public IActionResult Contact()
-    {
-        ViewData["Message"] = "Your contact page.";
-
-        return View();
-    }
-
-    public IActionResult Error()
-    {
-        return View();
     }
 }
 }
