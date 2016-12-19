@@ -14,6 +14,12 @@ public class HomeController : Controller
         return View(posts);
     }
 
+    // Model.Message (class, intellisense)
+    public IActionResult ViewModelExample() {
+        var model = new MessageViewModel() { Message = "Model" };
+        return View(model);
+    }
+
     // @ViewData["Message"] (dictionary)
     public IActionResult ViewDataExample() {
         ViewData["Message"] = "ViewData";
@@ -26,7 +32,7 @@ public class HomeController : Controller
         return View();
     }
     
-    // @Model.Message (dynamic)
+    // @Model.Message (dynamic, expando)
     public IActionResult ExpandoExample() {
         dynamic model = new ExpandoObject();
         model.Message = "Expando";
