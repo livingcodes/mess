@@ -8,19 +8,20 @@ namespace Mess.Controllers
 {
 public class PostController : Controller
 {
-    public PostController(IPostService service) {
-        this.service = service;
+    public PostController(MemoryDb db) {
+        this.db = db;
     }
-    IPostService service = null;
+    MemoryDb db = null;
 
     [Route("api/[controller]s")]
     public List<Post> Get() {
-        return service.Get();
+        return db.Select<Post>();
     }
 
     [Route("api/[controller]/{id}")]
     public Post Get(int id) {
-        return service.Get().FirstOrDefault(p => p.Id == id);
+        return db.Select<Post>()
+            .FirstOrDefault(p => p.Id == id);
     }
 }
 }

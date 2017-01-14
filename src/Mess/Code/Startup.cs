@@ -40,12 +40,15 @@ public class Startup
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+        services.AddMemoryCache();
         services.AddMvc();
 
         // Add application services.
         services.AddTransient<IEmailSender, AuthMessageSender>();
         services.AddTransient<ISmsSender, AuthMessageSender>();
         services.AddScopedEndingWith("Service");
+        services.AddSingleton<ICache, MemoryCache>();
+        services.AddSingleton<MemoryDb>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

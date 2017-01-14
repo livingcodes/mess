@@ -1,0 +1,39 @@
+﻿@model List<Post>
+@{ ViewData["Title"] = "Posts"; }
+<h1>Posts</h1>
+<ul>
+@foreach (var post in @Model) {
+    <li>
+        @post.Id @post.Title
+    </li>
+}
+</ul>
+<h2>Populate</h2>
+<p>
+    @Html.ActionLink("Populate", "Index", "Cache", new { populate = true }, new {})
+</p>
+
+<h2>Remove</h2>
+<p>
+    @Html.TextBox("RemoveId")
+    <a href="javascript:void(0)" onclick="onRemove()">Remove</a>
+</p>
+
+<script>
+    function onRemove() {
+        var id = document.getElementById('RemoveId').value
+        remove(id)
+    }
+    function remove(id) {
+        var ajax = new XMLHttpRequest()
+        ajax.open("GET", "cache?removeId="+id, true)
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState != 4 || ajax.status != 200) {
+                console.log('ajax error')
+                return
+            }
+            console.log('ajax succeeded')
+        }
+        ajax.send({})
+    }
+</script>
