@@ -22,7 +22,14 @@ public class MemoryDb
     }
 
     public void Update<T>(T item) {
-        
+        var key = getKey(typeof(T));
+        var list = (List<T>)cache.Get(key);
+        var existingItem = list.FirstOrDefault(i => ((int)i.GetType().GetField("Id").GetValue(i)) == ((int)item.GetType().GetField("Id").GetValue(item)));
+        if (existingItem == null)
+            throw new Exception("Cannot update. Item not found.");
+        var index = list.IndexOf(existingItem);
+        list[index] = item;
+        cache.Set(key, list, DateTime.Now.AddDays(1));
     }
 
     public List<T> Select<T>() {
@@ -31,6 +38,12 @@ public class MemoryDb
         if (list == null)
             list = new List<T>();
         return list;
+    }
+
+    public T Select<T>(int id) {
+        var list = Select<T>();
+        var item = list.FirstOrDefault(i => ((int)i.GetType().GetField("Id").GetValue(i)) == id);
+        return item;
     }
 
     public void Delete<T>(int id) {

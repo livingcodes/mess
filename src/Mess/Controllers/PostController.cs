@@ -20,8 +20,7 @@ public class PostController : Controller
 
     [Route("api/[controller]/{id}")]
     public Post Get(int id) {
-        return db.Select<Post>()
-            .FirstOrDefault(p => p.Id == id);
+        return db.Select<Post>(id);
     }
 }
 }

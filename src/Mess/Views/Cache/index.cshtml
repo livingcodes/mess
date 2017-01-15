@@ -13,6 +13,12 @@
     @Html.ActionLink("Populate", "Index", "Cache", new { populate = true }, new {})
 </p>
 
+<h2>Update</h2>
+<p>
+    @Html.TextBox("UpdateId")
+    @Html.ActionLink("Update", "Index", "Cache", new { updateId = 1 }, new {})
+</p>
+
 <h2>Remove</h2>
 <p>
     @Html.TextBox("RemoveId")
@@ -23,6 +29,7 @@
     function onRemove() {
         var id = document.getElementById('RemoveId').value
         remove(id)
+        window.location = '/cache'
     }
     function remove(id) {
         var ajax = new XMLHttpRequest()
